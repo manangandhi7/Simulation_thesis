@@ -10,36 +10,33 @@ def factorial(n):
     return fact
 
 
-def function_U(m, h):
+def function_U(k, h):
+#     print("calling U({}, {})".format(k, h))
     answer = -1
-    if (m, h) in solved_dict:
-        return solved_dict[(m, h)]
-    if m == 0:
-        answer = 0.01
-    elif m == 1:
-        answer = 1
-    elif h == 0:
-        answer = 1 / (2.718 * factorial(m - 1))
+    if (k, h) in solved_dict:
+        return solved_dict[(k, h)]
+    if h == 0:
+        answer = 1 / (2.718 * factorial(k - 1))
     else:
-        k = m - 2
         # part 1
-        a11 = h + 1
-        a12 = function_U(k, h + 1)
-        a1 = a11 * a12
+        a12 = function_U(k + 2, h -1)
+        a1 = epsilon * (k + 2) * (k + 1) * a12
 
+        #part 2
+        a2 = 0
         for r in range(0, k + 1):
-            for s in range(0, h + 1):
-                a21 = function_U(r, h - s)
-                a22 = k - r + 1
+            for s in range(0, h):
+                a21 = k - r + 1
+                a22 = function_U(r, h - 1 - s)
                 a23 = function_U(k - r + 1, s)
-                a1 = a1 + a21 * a22 * a23
+                a2 = a2 + a21 * a22 * a23
 
-        a3 = epsilon * (k + 1) * (k + 2)
+        answer = (a1 - a2) / h
         #         answer = frac(a1, a3)
-        answer = a1 / a3
 
-    if (m, h) not in solved_dict:
-        solved_dict[(m, h)] = answer
+    if (k, h) not in solved_dict:
+        solved_dict[(k, h)] = answer
+#         print("Saved U({}, {})".format(k, h))
 
     # print(m, h, answer)
     return answer
@@ -107,19 +104,21 @@ def get_value_equation(solved_dict, max_k, max_h, x, y):
 ####### Calculate U(k, h)
 # Initialize the values
 epsilon = 1
-k = 12
-h = 10
-m = k + 2
+K = 6
+H = 6
+# M = K + 2
+e = 2.71
 solved_dict = {}
 
 # Call function to calculate all values
-function_U(m, h)
+function_U(K, H)
 
 ####### Print all U(k, h)
 # print values as you need
-for i in range(0, k - 1):
-    for j in range(0, k - 1):
+for i in range(0, K):
+    for j in range(0, H):
         print('U(' + str(i) + ', ' + str(j) + ') = ' + str(solved_dict[(i, j)]))
+
 
 ####### print equation
 max_X = 1
