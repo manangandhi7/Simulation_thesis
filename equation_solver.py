@@ -10,7 +10,7 @@ def factorial(n):
     return fact
 
 
-def function_U(k, h):
+def U(k, h):
 #     print("calling U({}, {})".format(k, h))
     answer = -1
     if (k, h) in solved_dict:
@@ -19,7 +19,7 @@ def function_U(k, h):
         answer = 1 / (2.718 * factorial(k - 1))
     else:
         # part 1
-        a12 = function_U(k + 2, h -1)
+        a12 = U(k + 2, h -1)
         a1 = epsilon * (k + 2) * (k + 1) * a12
 
         #part 2
@@ -27,8 +27,8 @@ def function_U(k, h):
         for r in range(0, k + 1):
             for s in range(0, h):
                 a21 = k - r + 1
-                a22 = function_U(r, h - 1 - s)
-                a23 = function_U(k - r + 1, s)
+                a22 = U(r, h - 1 - s)
+                a23 = U(k - r + 1, s)
                 a2 = a2 + a21 * a22 * a23
 
         answer = (a1 - a2) / h
@@ -111,7 +111,7 @@ e = 2.71
 solved_dict = {}
 
 # Call function to calculate all values
-function_U(K, H)
+U(K, H)
 
 ####### Print all U(k, h)
 # print values as you need
@@ -123,7 +123,7 @@ for i in range(0, K):
 ####### print equation
 max_X = 1
 max_Y = 1
-max_k = max_h = 10
+max_k = max_h = 5
 
 print_equation(solved_dict, max_k, max_h)
 
@@ -151,6 +151,8 @@ from mpl_toolkits import mplot3d
 fig = plt.figure(figsize=(10, 7))
 ax = plt.axes(projection='3d')
 ax.scatter3D(X, Y, Z, cmap='Blues');
+plt.xlabel('X')
+plt.ylabel('Y')
 plt.show()
 
 ####### Write output to a file
