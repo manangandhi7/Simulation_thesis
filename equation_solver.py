@@ -16,7 +16,10 @@ def U(k, h):
     if (k, h) in solved_dict:
         return solved_dict[(k, h)]
     if h == 0:
-        answer = 1 / (2.718 * factorial(k - 1))
+        if k == 0:
+            answer = 0
+        else:
+            answer = 1 / (2.718 * factorial(k - 1))
     else:
         # part 1
         a12 = U(k + 2, h -1)
@@ -146,11 +149,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
 
-# max_K = max_H = 10
-# max_X = max_Y = 10
 fig = plt.figure(figsize=(10, 7))
 ax = plt.axes(projection='3d')
-ax.scatter3D(X, Y, Z, cmap='Blues');
+ax.scatter3D(X, Y, Z, cmap='Blues')
 plt.xlabel('X')
 plt.ylabel('Y')
 plt.show()
